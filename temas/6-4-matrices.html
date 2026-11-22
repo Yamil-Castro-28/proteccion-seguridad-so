@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#111114">
+ <meta name="description" content="6.4 · Implantación de matrices de acceso. Material de la Unidad 6 de Sistemas Operativos: definiciones, explicaciones y ejemplos para clase.">
+ <title>6.4 · Implantación de matrices de acceso · Sistemas Operativos</title>
+ <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="../assets/styles.css">
+ <script src="../assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="site-top">
+ <div class="shell header-row">
+  <a class="brand" href="../index.html" aria-label="Sistemas Operativos, inicio">
+   <span class="brand-mark" aria-hidden="true">SO</span>
+   <span><strong>Sistemas Operativos</strong><small>Protección y seguridad</small></span>
+  </a>
+  <nav class="header-links" aria-label="Navegación principal">
+   <a href="../index.html">Inicio</a>
+   <a href="../fuentes.html">Fuentes</a>
+   <button type="button" class="projection-toggle" data-projection aria-pressed="false" title="Aumentar el tamaño del texto para exponer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v5m-4 0h8"/></svg>
+    <span>Proyección</span>
+   </button>
+  </nav>
+ </div>
+ <nav class="topic-bar" aria-label="Temas de la unidad">
+  <div class="shell topic-bar-inner">
+   <button type="button" class="carousel-control" data-carousel-back aria-label="Mostrar temas anteriores">Atrás</button>
+   <div class="topic-carousel" tabindex="0" aria-label="Carrusel de temas, desplazamiento horizontal"><a class="topic-tab" href="../temas/6-1-conceptos.html"><span>6.1</span>Conceptos y objetivos</a><a class="topic-tab" href="../temas/6-2-clasificacion.html"><span>6.2</span>Clasificación</a><a class="topic-tab" href="../temas/6-3-funciones.html"><span>6.3</span>Sistema de protección</a><a class="topic-tab" href="../temas/6-4-matrices.html" aria-current="page"><span>6.4</span>Matrices de acceso</a><a class="topic-tab" href="../temas/6-5-lenguaje.html"><span>6.5</span>Protección y lenguaje</a><a class="topic-tab" href="../temas/6-6-amenazas.html"><span>6.6</span>Validación y amenazas</a><a class="topic-tab" href="../temas/6-7-cifrado.html"><span>6.7</span>Cifrado</a></div>
+   <button type="button" class="carousel-control" data-carousel-next aria-label="Mostrar más temas">Más temas</button>
+  </div>
+ </nav>
+ <div class="progress-line" aria-hidden="true"><div data-reading-progress></div></div>
+</header>
+<main id="contenido" class="shell"><div class="page-hero"><p class="eyebrow">Unidad 6 · Tema 6.4</p><h1>Implantación de matrices de acceso</h1><p class="intro">Una matriz vuelve explícitos los permisos. Sus filas representan sujetos o dominios; sus columnas, los objetos que se protegen.</p><div class="page-meta"><span>Tema 4 de 7</span><a href="#fuentes-tema">Fuentes de este tema</a></div></div>
+<div class="lesson-layout"><article class="lesson" aria-label="Implantación de matrices de acceso">
+<section id="estructura">
+ <div class="definition"><span class="case-label">Idea central</span><p>La <strong>matriz de acceso</strong> describe los derechos de cada sujeto o dominio sobre cada objeto. Una celda indica las operaciones autorizadas; una celda vacía representa ausencia de permisos.</p></div>
+ <p style="margin-top:28px">Se puede expresar como <code>M[sujeto, objeto] = {derechos}</code>. En este ejemplo, <strong>R</strong> significa lectura; <strong>W</strong>, escritura; y <strong>X</strong>, ejecución. Los sujetos se simplifican como funciones del aula.</p>
+ <p>Para decidir una solicitud, el sistema localiza la fila del sujeto y la columna del objeto, y comprueba si el derecho solicitado está en su intersección. La matriz representa la política; las comprobaciones deben hacerse en un componente confiable.</p>
+</section>
+<section id="laboratorio">
+ <h2>¿Se permite esta operación?</h2>
+ <div class="lab" data-matrix-lab>
+  <span class="case-label">Demostración interactiva</span>
+  <h3>Una matriz, distintas decisiones</h3>
+  <p class="lab-intro">Elige sujeto, objeto y operación. Después concede o revoca el permiso seleccionado y observa cómo cambia la decisión.</p>
+  <noscript><p class="noscript">Activa JavaScript para manipular la simulación. La tabla muestra los permisos iniciales.</p></noscript>
+  <div class="lab-controls">
+   <label>Sujeto<select id="matrix-subject"><option value="0">Estudiante</option><option value="1">Docente</option><option value="2">Coordinación</option></select></label>
+   <label>Objeto<select id="matrix-object"><option value="0">Material.pdf</option><option value="1">Entrega.txt</option><option value="2" selected>Calificaciones.csv</option><option value="3">Simulador</option></select></label>
+   <label>Operación<select id="matrix-action"><option value="R">Leer (R)</option><option value="W" selected>Escribir (W)</option><option value="X">Ejecutar (X)</option></select></label>
+  </div>
+  <div class="table-wrap"><table class="matrix-table"><caption>Permisos del aula · R: leer · W: escribir · X: ejecutar · —: sin permisos</caption><thead><tr><th scope="col">Sujeto / objeto</th><th scope="col">Material.pdf</th><th scope="col">Entrega.txt</th><th scope="col">Calificaciones.csv</th><th scope="col">Simulador</th></tr></thead><tbody>
+   <tr><th scope="row">Estudiante</th><td data-cell="0,0">R</td><td data-cell="0,1">RW</td><td data-cell="0,2" class="selected-cell">—</td><td data-cell="0,3">X</td></tr>
+   <tr><th scope="row">Docente</th><td data-cell="1,0">RW</td><td data-cell="1,1">R</td><td data-cell="1,2">RW</td><td data-cell="1,3">X</td></tr>
+   <tr><th scope="row">Coordinación</th><td data-cell="2,0">R</td><td data-cell="2,1">—</td><td data-cell="2,2">R</td><td data-cell="2,3">—</td></tr>
+  </tbody></table></div>
+  <div class="result" id="matrix-result" data-state="deny" role="status" aria-live="polite" aria-atomic="true"><strong>Acceso denegado</strong><span>Estudiante solicita escribir en Calificaciones.csv; la celda carece de W.</span></div>
+  <div class="button-row"><button type="button" class="button small" id="matrix-change">Conceder permiso</button><button type="button" class="button secondary small" id="matrix-reset">Restablecer matriz</button></div>
+  <p class="lab-note">Simulación didáctica. Los cambios son temporales y no modifican permisos reales. Aquí cualquiera puede cambiar la tabla para aprender; en un sistema real, administrar permisos también exige autorización.</p>
+ </div>
+</section>
+<section id="implementacion">
+ <h2>Del modelo a una estructura real</h2>
+ <p>Una matriz completa puede ocupar mucho espacio y contener muchas celdas vacías. Por eso suele guardarse de forma dispersa o mediante estructuras equivalentes.</p>
+ <div class="table-wrap"><table><thead><tr><th scope="col">Representación</th><th scope="col">Cómo organiza los derechos</th><th scope="col">Aspecto a considerar</th></tr></thead><tbody>
+  <tr><th scope="row">Tabla global</th><td>Guarda entradas con sujeto, objeto y derechos.</td><td>La búsqueda y el tamaño crecen con los permisos almacenados.</td></tr>
+  <tr><th scope="row">ACL · Lista de control de acceso</th><td>Asocia a cada objeto una lista de sujetos o grupos y sus derechos. Equivale a organizar por columnas.</td><td>Facilita consultar quién puede acceder a un objeto y modificar su lista.</td></tr>
+  <tr><th scope="row">Lista de capacidades</th><td>Vincula a un sujeto referencias protegidas a objetos y operaciones. Equivale a organizar por filas.</td><td>Las capacidades deben ser inalterables por usuarios sin autorización; la revocación requiere un diseño específico.</td></tr>
+ </tbody></table></div>
+ <div class="cards two">
+  <div class="concept-card"><h3>Vista por objeto · ACL</h3><p>Calificaciones.csv:<br>Docente: R, W<br>Coordinación: R<br>Estudiante: sin acceso</p></div>
+  <div class="concept-card"><h3>Vista por sujeto · capacidades</h3><p>Estudiante:<br>Material.pdf: R<br>Entrega.txt: R, W<br>Simulador: X</p></div>
+ </div>
+ <details><summary>Ampliación: mecanismo de cerradura y llave</summary><div class="detail-body"><p>Es una representación conceptual donde los objetos tienen cerraduras y los dominios poseen llaves protegidas. El acceso requiere una coincidencia y los derechos correspondientes. Las llaves son datos de autorización protegidos, distintos de una contraseña que el usuario escribe.</p></div></details>
+</section>
+<section id="gestion">
+ <h2>Pasos para implantar el control</h2>
+ <ol>
+  <li><strong>Identificar</strong> sujetos, dominios y objetos que se van a proteger.</li>
+  <li><strong>Definir</strong> las operaciones relevantes y conceder los derechos mínimos.</li>
+  <li><strong>Elegir</strong> una representación adecuada, como ACL o capacidades.</li>
+  <li><strong>Comprobar</strong> las solicitudes en el sistema, protegiendo también la propia estructura de permisos.</li>
+  <li><strong>Revisar y revocar</strong> derechos cuando cambien las funciones, los objetos o las necesidades.</li>
+ </ol>
+ <p>Conceder acceso cambia la política efectiva. Por eso es tan importante comprobar una operación como controlar quién está autorizado a modificar sus permisos.</p>
+</section><div class="takeaway"><h2>Para quedarnos con lo esencial</h2><p>La matriz explica quién puede hacer qué. Las ACL y las capacidades son formas prácticas de representar esos derechos sin almacenar cada celda vacía.</p></div><details><summary>Para discutir: Si Coordinación puede leer notas, ¿también puede modificarlas?</summary><div class="detail-body"><p>Solo si su celda contiene W. La lectura R y la escritura W son derechos distintos; uno no implica automáticamente el otro.</p></div></details><div class="sources-inline" id="fuentes-tema"><p><strong>Base teórica:</strong> Tanenbaum (2009), cap. 9, pp. 623–630. <a href="../fuentes.html#tanenbaum">Referencia del libro</a>.</p></div></article><aside class="lesson-nav" aria-label="Contenido de este tema"><p>En este tema</p><a href="#estructura">Cómo leer una matriz</a><a href="#laboratorio">Prueba los permisos</a><a href="#implementacion">Cómo se implanta</a><a href="#gestion">Conceder y revocar</a><a href="#fuentes-tema">Fuentes del tema</a></aside></div><nav class="lesson-pagination" aria-label="Continuar la unidad">
+<a class="page-link" href="6-3-funciones.html"><span>Tema anterior · 6.3</span><strong>Sistema de protección</strong></a>
+<a class="page-link next" href="6-5-lenguaje.html"><span>Siguiente tema · 6.5</span><strong>Protección y lenguaje</strong></a></nav></main>
+<footer class="site-footer"><div class="shell footer-inner">
+<p>Sistemas Operativos · Unidad 6<br>Jesús Yamil Castro Cano · Gabriel Angel Avalos Silva</p>
+<a href="../fuentes.html">Bibliografía y glosario</a>
+</div></footer>
+</body>
+</html>

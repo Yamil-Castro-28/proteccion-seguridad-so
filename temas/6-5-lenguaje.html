@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#111114">
+ <meta name="description" content="6.5 · Protección basada en el lenguaje. Material de la Unidad 6 de Sistemas Operativos: definiciones, explicaciones y ejemplos para clase.">
+ <title>6.5 · Protección basada en el lenguaje · Sistemas Operativos</title>
+ <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="../assets/styles.css">
+ <script src="../assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="site-top">
+ <div class="shell header-row">
+  <a class="brand" href="../index.html" aria-label="Sistemas Operativos, inicio">
+   <span class="brand-mark" aria-hidden="true">SO</span>
+   <span><strong>Sistemas Operativos</strong><small>Protección y seguridad</small></span>
+  </a>
+  <nav class="header-links" aria-label="Navegación principal">
+   <a href="../index.html">Inicio</a>
+   <a href="../fuentes.html">Fuentes</a>
+   <button type="button" class="projection-toggle" data-projection aria-pressed="false" title="Aumentar el tamaño del texto para exponer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v5m-4 0h8"/></svg>
+    <span>Proyección</span>
+   </button>
+  </nav>
+ </div>
+ <nav class="topic-bar" aria-label="Temas de la unidad">
+  <div class="shell topic-bar-inner">
+   <button type="button" class="carousel-control" data-carousel-back aria-label="Mostrar temas anteriores">Atrás</button>
+   <div class="topic-carousel" tabindex="0" aria-label="Carrusel de temas, desplazamiento horizontal"><a class="topic-tab" href="../temas/6-1-conceptos.html"><span>6.1</span>Conceptos y objetivos</a><a class="topic-tab" href="../temas/6-2-clasificacion.html"><span>6.2</span>Clasificación</a><a class="topic-tab" href="../temas/6-3-funciones.html"><span>6.3</span>Sistema de protección</a><a class="topic-tab" href="../temas/6-4-matrices.html"><span>6.4</span>Matrices de acceso</a><a class="topic-tab" href="../temas/6-5-lenguaje.html" aria-current="page"><span>6.5</span>Protección y lenguaje</a><a class="topic-tab" href="../temas/6-6-amenazas.html"><span>6.6</span>Validación y amenazas</a><a class="topic-tab" href="../temas/6-7-cifrado.html"><span>6.7</span>Cifrado</a></div>
+   <button type="button" class="carousel-control" data-carousel-next aria-label="Mostrar más temas">Más temas</button>
+  </div>
+ </nav>
+ <div class="progress-line" aria-hidden="true"><div data-reading-progress></div></div>
+</header>
+<main id="contenido" class="shell"><div class="page-hero"><p class="eyebrow">Unidad 6 · Tema 6.5</p><h1>Protección basada en el lenguaje</h1><p class="intro">La protección también empieza al escribir un programa: el lenguaje, el compilador y el entorno de ejecución pueden imponer restricciones.</p><div class="page-meta"><span>Tema 5 de 7</span><a href="#fuentes-tema">Fuentes de este tema</a></div></div>
+<div class="lesson-layout"><article class="lesson" aria-label="Protección basada en el lenguaje">
+<section id="definicion">
+ <div class="definition"><span class="case-label">Idea central</span><p>La <strong>protección basada en el lenguaje</strong> utiliza reglas del lenguaje de programación y comprobaciones del compilador o del entorno de ejecución para limitar operaciones y reducir accesos indebidos.</p></div>
+ <p style="margin-top:28px">El sistema operativo protege procesos entre sí, pero dentro de un programa también hay datos y componentes que conviene separar. La seguridad de tipos, la encapsulación y la comprobación de límites permiten imponer restricciones más cercanas al código.</p>
+ <div class="cards two">
+  <div class="concept-card"><h3>Seguridad de tipos</h3><p>Restringe operaciones incompatibles con el tipo de dato. Ayuda a impedir que un valor se interprete arbitrariamente como otro.</p></div>
+  <div class="concept-card"><h3>Encapsulación</h3><p>Limita el acceso a detalles internos de un componente y expone operaciones controladas mediante su interfaz.</p></div>
+ </div>
+</section>
+<section id="momentos">
+ <h2>Las comprobaciones ocurren en varias etapas</h2>
+ <div class="flow" role="group" aria-label="Etapas de protección de un programa">
+  <div><span class="step-label">AL COMPILAR</span><strong>Reglas del lenguaje</strong><p>Se detectan usos de tipos o accesos a miembros que incumplen sus reglas.</p></div>
+  <div><span class="step-label">AL CARGAR</span><strong>Verificación</strong><p>En entornos como la JVM se verifica que el código intermedio respete restricciones.</p></div>
+  <div><span class="step-label">AL EJECUTAR</span><strong>Controles dinámicos</strong><p>Se comprueban condiciones como los límites de un arreglo y las operaciones de acceso al sistema.</p></div>
+ </div>
+ <p>Algunas propiedades pueden revisarse antes de ejecutar el programa; otras dependen de valores que se conocen durante la ejecución. Ambas clases de comprobaciones se complementan.</p>
+ <div class="example-box"><span class="case-label">Ejemplo</span><p>Un arreglo con tres posiciones tiene índices 0, 1 y 2. Si el programa intenta usar el índice 5, un entorno con comprobación de límites puede rechazar la operación. Así evita tratar esa posición como memoria válida del arreglo.</p></div>
+</section>
+<section id="ejemplo">
+ <h2>Una calificación con una interfaz controlada</h2>
+ <p>Este ejemplo en Java mantiene el valor como miembro privado y obliga a pasar por una operación que comprueba el rango.</p>
+ <pre aria-label="Ejemplo de encapsulación y validación en Java"><code>class Registro {
+    private int calificacion;
+
+    public void actualizar(int valor) {
+        if (valor &lt; 0 || valor &gt; 100) {
+            throw new IllegalArgumentException();
+        }
+        calificacion = valor;
+    }
+}</code></pre>
+ <ul>
+  <li><strong>private:</strong> restringe el acceso directo al campo según las reglas de Java.</li>
+  <li><strong>int:</strong> define el tipo del valor; la regla de 0 a 100 añade una restricción del dominio escolar.</li>
+  <li><strong>actualizar:</strong> concentra la comprobación para conservar un estado válido.</li>
+ </ul>
+ <div class="note"><strong>También hace falta autorización:</strong> este fragmento comprueba el valor, pero no identifica a quien llama al método. Una aplicación real debe comprobar qué usuario puede cambiar la calificación y proteger el registro persistente.</div>
+ <p>Un lenguaje con comprobaciones reduce ciertas clases de errores, pero la lógica del programa, las bibliotecas, el código nativo y la configuración siguen influyendo en su seguridad.</p>
+</section>
+<section id="vigencia">
+ <span class="eyebrow">Del libro a la práctica actual</span><h2>Conservar la idea, actualizar el ejemplo</h2>
+ <p>Las páginas 709–711 del libro explican la seguridad de Java mediante applets, cajas de arena y políticas antiguas. Son ejemplos históricos de cómo restringir código recibido de otro origen.</p>
+ <div class="note update"><strong>Actualización:</strong> el Security Manager está permanentemente deshabilitado desde JDK 24. Las comprobaciones de tipos, los modificadores de acceso y la verificación de bytecode siguen siendo conceptos útiles; el antiguo modelo de políticas del Security Manager debe estudiarse con su contexto histórico. <a href="../fuentes.html#java-manager">Documentación de Oracle</a>.</div>
+ <p>La protección basada en el lenguaje se integra con el aislamiento de procesos, los permisos del sistema y el diseño de la aplicación. Cada capa controla un aspecto distinto.</p>
+</section><div class="takeaway"><h2>Para quedarnos con lo esencial</h2><p>El lenguaje puede restringir lo que un programa expresa y el entorno puede comprobar su ejecución. Esto refuerza la protección junto con los controles del sistema operativo.</p></div><details><summary>Para discutir: ¿Un campo privado impide que un usuario no autorizado cambie una nota?</summary><div class="detail-body"><p>Restringe el acceso en el código, pero si una operación pública modifica el campo sin comprobar permisos, todavía puede haber un fallo de autorización.</p></div></details><div class="sources-inline" id="fuentes-tema"><p><strong>Base teórica:</strong> Tanenbaum (2009), cap. 9, pp. 705–711. <a href="../fuentes.html#tanenbaum">Referencia del libro</a>.</p><p><strong>Actualización:</strong> <a href="../fuentes.html#java-overview">Oracle: Java Security Overview</a> y <a href="../fuentes.html#java-manager">Security Manager desde JDK 24</a>.</p></div></article><aside class="lesson-nav" aria-label="Contenido de este tema"><p>En este tema</p><a href="#definicion">Qué aporta el lenguaje</a><a href="#momentos">Compilación y ejecución</a><a href="#ejemplo">Un ejemplo con Java</a><a href="#vigencia">Qué ha cambiado</a><a href="#fuentes-tema">Fuentes del tema</a></aside></div><nav class="lesson-pagination" aria-label="Continuar la unidad">
+<a class="page-link" href="6-4-matrices.html"><span>Tema anterior · 6.4</span><strong>Matrices de acceso</strong></a>
+<a class="page-link next" href="6-6-amenazas.html"><span>Siguiente tema · 6.6</span><strong>Validación y amenazas</strong></a></nav></main>
+<footer class="site-footer"><div class="shell footer-inner">
+<p>Sistemas Operativos · Unidad 6<br>Jesús Yamil Castro Cano · Gabriel Angel Avalos Silva</p>
+<a href="../fuentes.html">Bibliografía y glosario</a>
+</div></footer>
+</body>
+</html>

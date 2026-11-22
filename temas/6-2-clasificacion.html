@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#111114">
+ <meta name="description" content="6.2 · Clasificación aplicada a la seguridad. Material de la Unidad 6 de Sistemas Operativos: definiciones, explicaciones y ejemplos para clase.">
+ <title>6.2 · Clasificación aplicada a la seguridad · Sistemas Operativos</title>
+ <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="../assets/styles.css">
+ <script src="../assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="site-top">
+ <div class="shell header-row">
+  <a class="brand" href="../index.html" aria-label="Sistemas Operativos, inicio">
+   <span class="brand-mark" aria-hidden="true">SO</span>
+   <span><strong>Sistemas Operativos</strong><small>Protección y seguridad</small></span>
+  </a>
+  <nav class="header-links" aria-label="Navegación principal">
+   <a href="../index.html">Inicio</a>
+   <a href="../fuentes.html">Fuentes</a>
+   <button type="button" class="projection-toggle" data-projection aria-pressed="false" title="Aumentar el tamaño del texto para exponer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v5m-4 0h8"/></svg>
+    <span>Proyección</span>
+   </button>
+  </nav>
+ </div>
+ <nav class="topic-bar" aria-label="Temas de la unidad">
+  <div class="shell topic-bar-inner">
+   <button type="button" class="carousel-control" data-carousel-back aria-label="Mostrar temas anteriores">Atrás</button>
+   <div class="topic-carousel" tabindex="0" aria-label="Carrusel de temas, desplazamiento horizontal"><a class="topic-tab" href="../temas/6-1-conceptos.html"><span>6.1</span>Conceptos y objetivos</a><a class="topic-tab" href="../temas/6-2-clasificacion.html" aria-current="page"><span>6.2</span>Clasificación</a><a class="topic-tab" href="../temas/6-3-funciones.html"><span>6.3</span>Sistema de protección</a><a class="topic-tab" href="../temas/6-4-matrices.html"><span>6.4</span>Matrices de acceso</a><a class="topic-tab" href="../temas/6-5-lenguaje.html"><span>6.5</span>Protección y lenguaje</a><a class="topic-tab" href="../temas/6-6-amenazas.html"><span>6.6</span>Validación y amenazas</a><a class="topic-tab" href="../temas/6-7-cifrado.html"><span>6.7</span>Cifrado</a></div>
+   <button type="button" class="carousel-control" data-carousel-next aria-label="Mostrar más temas">Más temas</button>
+  </div>
+ </nav>
+ <div class="progress-line" aria-hidden="true"><div data-reading-progress></div></div>
+</header>
+<main id="contenido" class="shell"><div class="page-hero"><p class="eyebrow">Unidad 6 · Tema 6.2</p><h1>Clasificación aplicada a la seguridad</h1><p class="intro">La seguridad se puede clasificar por el tipo de control, por la forma de decidir el acceso y por criterios de evaluación.</p><div class="page-meta"><span>Tema 2 de 7</span><a href="#fuentes-tema">Fuentes de este tema</a></div></div>
+<div class="lesson-layout"><article class="lesson" aria-label="Clasificación aplicada a la seguridad">
+<section id="criterios">
+ <div class="definition"><span class="case-label">Idea central</span><p>Clasificar la seguridad consiste en ordenar sus controles, modelos y criterios de evaluación para entender <strong>qué protegen, cómo toman decisiones y qué garantías ofrecen</strong>.</p></div>
+ <p style="margin-top:28px">Conviene separar tres preguntas: ¿de qué tipo es el control?, ¿cómo se decide un permiso?, y ¿cómo se evalúa la protección? Son enfoques complementarios y pueden coexistir en un sistema.</p>
+</section>
+<section id="controles">
+ <h2>Según el tipo de control</h2>
+ <div class="cards">
+  <div class="concept-card"><h3>Físicos</h3><p>Protegen equipos e instalaciones frente al acceso material, daños y condiciones ambientales.</p><p class="example">Acceso al laboratorio, cerraduras, energía de respaldo y protección contra incendios.</p></div>
+  <div class="concept-card"><h3>Administrativos</h3><p>Establecen responsabilidades, procedimientos y reglas de uso.</p><p class="example">Alta y baja de cuentas, capacitación, política de respaldos y respuesta a incidentes.</p></div>
+  <div class="concept-card"><h3>Lógicos o técnicos</h3><p>Aplican restricciones mediante software y hardware.</p><p class="example">Permisos de archivos, aislamiento de procesos, autenticación, registros y cifrado.</p></div>
+ </div>
+ <p style="margin-top:25px">Por su función, una medida también puede ser preventiva, detectiva o correctiva. Un permiso restringe; un registro permite detectar y analizar; un respaldo facilita recuperar información. Un mismo control puede cumplir varias funciones.</p>
+</section>
+<section id="modelos">
+ <h2>Según cómo se decide el acceso</h2>
+ <div class="table-wrap"><table><caption>Modelos de control de acceso y ejemplos didácticos</caption><thead><tr><th scope="col">Modelo</th><th scope="col">Criterio de autorización</th><th scope="col">Ejemplo</th></tr></thead><tbody>
+  <tr><th scope="row">DAC · Discrecional</th><td>El propietario puede conceder permisos sobre sus objetos, dentro de las reglas del sistema.</td><td>Compartir la lectura de un archivo con un compañero.</td></tr>
+  <tr><th scope="row">MAC · Obligatorio</th><td>Una política central impone restricciones, por ejemplo, mediante etiquetas y niveles de seguridad.</td><td>Un documento clasificado exige la autorización correspondiente.</td></tr>
+  <tr><th scope="row">RBAC · Basado en roles</th><td>Los permisos se asignan a roles y los usuarios reciben los roles que corresponden a sus funciones.</td><td>“Docente” puede registrar notas; “Estudiante” puede enviar trabajos.</td></tr>
+  <tr><th scope="row">ABAC · Basado en atributos</th><td>La política evalúa atributos del sujeto, el objeto, la operación y, cuando corresponde, el entorno.</td><td>Permitir consultar un recurso a docentes del área desde un equipo institucional.</td></tr>
+ </tbody></table></div>
+ <div class="example-box"><span class="case-label">Caso del aula</span><p>Asignar a Gabriel el rol de estudiante evita configurar por separado todos sus permisos. Una regla adicional por atributos podría exigir que el material pertenezca al grupo al que está inscrito.</p></div>
+ <p>El sistema operativo y las aplicaciones pueden aplicar modelos distintos en diferentes capas. Una lista de permisos de archivos y los roles de una plataforma escolar pueden participar en la misma solicitud.</p>
+</section>
+<section id="tcsec">
+ <span class="eyebrow">Referencia histórica · 1985</span><h2>Las clases del Libro naranja</h2>
+ <p>Los <strong>TCSEC</strong> (Trusted Computer System Evaluation Criteria) organizaron la evaluación de sistemas confiables en divisiones y clases con requisitos crecientes de protección y aseguramiento.</p>
+ <div class="table-wrap"><table><caption>Resumen histórico de las clases TCSEC</caption><thead><tr><th scope="col">Clase</th><th scope="col">Enfoque</th></tr></thead><tbody>
+  <tr><th scope="row">D</th><td>Protección mínima: sistemas evaluados que no cumplen una clase superior.</td></tr>
+  <tr><th scope="row">C1</th><td>Protección discrecional y separación básica de usuarios y datos.</td></tr>
+  <tr><th scope="row">C2</th><td>Acceso controlado, responsabilidad individual y auditoría.</td></tr>
+  <tr><th scope="row">B1</th><td>Protección con etiquetas y control obligatorio de acceso.</td></tr>
+  <tr><th scope="row">B2</th><td>Protección estructurada y mayor análisis del diseño.</td></tr>
+  <tr><th scope="row">B3</th><td>Dominios de seguridad y requisitos más exigentes sobre la base confiable.</td></tr>
+  <tr><th scope="row">A1</th><td>Funcionalidad de B3 con diseño y verificación formal reforzados.</td></tr>
+ </tbody></table></div>
+ <div class="note update"><strong>Cómo interpretarlo:</strong> esta clasificación pertenece a un marco histórico de evaluación con alcance y condiciones definidos. Una clasificación no elimina la necesidad de configuración, mantenimiento y análisis del entorno.</div>
+</section><div class="takeaway"><h2>Para quedarnos con lo esencial</h2><p>Los tipos de controles indican dónde se actúa; los modelos de acceso explican cómo se decide; las clases de evaluación expresan requisitos y garantías dentro de un marco.</p></div><details><summary>Para discutir: ¿“Docente puede editar notas” corresponde a RBAC o a cifrado?</summary><div class="detail-body"><p>A RBAC: la autorización se vincula a una función o rol. El cifrado protege el contenido y se estudia en el tema 6.7.</p></div></details><div class="sources-inline" id="fuentes-tema"><p><strong>Base teórica:</strong> Tanenbaum (2009), cap. 9, pp. 634–637; cap. 11, p. 844. <a href="../fuentes.html#tanenbaum">Referencia del libro</a>.</p><p><strong>Complementos:</strong> <a href="../fuentes.html#nist-rbac">NIST: RBAC</a>, <a href="../fuentes.html#nist-abac">NIST SP 800-162: ABAC</a> y <a href="../fuentes.html#tcsec">TCSEC (1985)</a>.</p></div></article><aside class="lesson-nav" aria-label="Contenido de este tema"><p>En este tema</p><a href="#criterios">Tres formas de clasificar</a><a href="#controles">Tipos de controles</a><a href="#modelos">Modelos de acceso</a><a href="#tcsec">TCSEC y contexto histórico</a><a href="#fuentes-tema">Fuentes del tema</a></aside></div><nav class="lesson-pagination" aria-label="Continuar la unidad">
+<a class="page-link" href="6-1-conceptos.html"><span>Tema anterior · 6.1</span><strong>Conceptos y objetivos</strong></a>
+<a class="page-link next" href="6-3-funciones.html"><span>Siguiente tema · 6.3</span><strong>Sistema de protección</strong></a></nav></main>
+<footer class="site-footer"><div class="shell footer-inner">
+<p>Sistemas Operativos · Unidad 6<br>Jesús Yamil Castro Cano · Gabriel Angel Avalos Silva</p>
+<a href="../fuentes.html">Bibliografía y glosario</a>
+</div></footer>
+</body>
+</html>

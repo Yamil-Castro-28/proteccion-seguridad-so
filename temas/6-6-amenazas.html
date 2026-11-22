@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#111114">
+ <meta name="description" content="6.6 · Validación y amenazas al sistema. Material de la Unidad 6 de Sistemas Operativos: definiciones, explicaciones y ejemplos para clase.">
+ <title>6.6 · Validación y amenazas al sistema · Sistemas Operativos</title>
+ <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="../assets/styles.css">
+ <script src="../assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="site-top">
+ <div class="shell header-row">
+  <a class="brand" href="../index.html" aria-label="Sistemas Operativos, inicio">
+   <span class="brand-mark" aria-hidden="true">SO</span>
+   <span><strong>Sistemas Operativos</strong><small>Protección y seguridad</small></span>
+  </a>
+  <nav class="header-links" aria-label="Navegación principal">
+   <a href="../index.html">Inicio</a>
+   <a href="../fuentes.html">Fuentes</a>
+   <button type="button" class="projection-toggle" data-projection aria-pressed="false" title="Aumentar el tamaño del texto para exponer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v5m-4 0h8"/></svg>
+    <span>Proyección</span>
+   </button>
+  </nav>
+ </div>
+ <nav class="topic-bar" aria-label="Temas de la unidad">
+  <div class="shell topic-bar-inner">
+   <button type="button" class="carousel-control" data-carousel-back aria-label="Mostrar temas anteriores">Atrás</button>
+   <div class="topic-carousel" tabindex="0" aria-label="Carrusel de temas, desplazamiento horizontal"><a class="topic-tab" href="../temas/6-1-conceptos.html"><span>6.1</span>Conceptos y objetivos</a><a class="topic-tab" href="../temas/6-2-clasificacion.html"><span>6.2</span>Clasificación</a><a class="topic-tab" href="../temas/6-3-funciones.html"><span>6.3</span>Sistema de protección</a><a class="topic-tab" href="../temas/6-4-matrices.html"><span>6.4</span>Matrices de acceso</a><a class="topic-tab" href="../temas/6-5-lenguaje.html"><span>6.5</span>Protección y lenguaje</a><a class="topic-tab" href="../temas/6-6-amenazas.html" aria-current="page"><span>6.6</span>Validación y amenazas</a><a class="topic-tab" href="../temas/6-7-cifrado.html"><span>6.7</span>Cifrado</a></div>
+   <button type="button" class="carousel-control" data-carousel-next aria-label="Mostrar más temas">Más temas</button>
+  </div>
+ </nav>
+ <div class="progress-line" aria-hidden="true"><div data-reading-progress></div></div>
+</header>
+<main id="contenido" class="shell"><div class="page-hero"><p class="eyebrow">Unidad 6 · Tema 6.6</p><h1>Validación y amenazas al sistema</h1><p class="intro">Una identidad válida, un dato válido y una operación autorizada son comprobaciones distintas. Las amenazas buscan aprovechar sus fallos.</p><div class="page-meta"><span>Tema 6 de 7</span><a href="#fuentes-tema">Fuentes de este tema</a></div></div>
+<div class="lesson-layout"><article class="lesson" aria-label="Validación y amenazas al sistema">
+<section id="validacion">
+ <div class="definition"><span class="case-label">Idea central</span><p><strong>Validar</strong> es comprobar que se cumplen condiciones antes de aceptar una identidad, un dato o una operación. El sistema necesita distinguir identidad, formato y permisos.</p></div>
+ <div class="flow" role="group" aria-label="Tres comprobaciones complementarias">
+  <div><span class="step-label">IDENTIDAD</span><strong>Autenticar</strong><p>¿Quién solicita la operación? Se comprueban los autenticadores asociados a su identidad.</p></div>
+  <div><span class="step-label">DATOS</span><strong>Validar la entrada</strong><p>¿La solicitud tiene un tipo, longitud, rango y estructura aceptables?</p></div>
+  <div><span class="step-label">PERMISOS</span><strong>Autorizar</strong><p>¿Esa identidad puede realizar esta operación sobre ese recurso?</p></div>
+ </div>
+ <p>Una contraseña correcta no vuelve válido un dato fuera de rango. Un dato válido tampoco demuestra que quien lo envía tenga permiso para registrarlo.</p>
+</section>
+<section id="prueba">
+ <h2>Un dato puede ser correcto y requerir permiso</h2>
+ <div class="lab">
+  <span class="case-label">Demostración de validación</span><h3>Registrar una calificación</h3>
+  <p class="lab-intro">La regla acepta valores numéricos de 0 a 100. Prueba con 95 y con 150.</p>
+  <form id="validation-form" novalidate>
+   <label for="grade-value">Calificación</label><input id="grade-value" type="number" step="any" value="95" inputmode="decimal">
+   <button type="submit" class="button small" style="margin-top:18px">Validar dato</button>
+  </form>
+  <div class="result" id="validation-result" role="status" aria-live="polite" aria-atomic="true"><strong>Prueba la regla</strong><span>Introduce un valor y pulsa “Validar dato”.</span></div>
+  <p class="lab-note">Ejemplo local para aprender. En una aplicación real, las comprobaciones también deben realizarse en el componente confiable que recibe y guarda la solicitud.</p>
+ </div>
+ <p>OWASP recomienda validar las entradas en el servidor, aunque existan comprobaciones en la interfaz. El tratamiento seguro depende además del contexto: las consultas parametrizadas previenen inyección SQL y la codificación de salida ayuda frente a XSS. La validación es una capa del conjunto.</p>
+</section>
+<section id="riesgo">
+ <h2>Tres conceptos que conviene separar</h2>
+ <div class="cards">
+  <div class="concept-card"><h3>Amenaza</h3><p>Agente, evento o circunstancia con capacidad de causar daño.</p><p class="example">Un atacante intenta entrar usando credenciales robadas.</p></div>
+  <div class="concept-card"><h3>Vulnerabilidad</h3><p>Debilidad que puede permitir que una amenaza produzca un efecto no deseado.</p><p class="example">Una cuenta conserva permisos que ya no necesita.</p></div>
+  <div class="concept-card"><h3>Riesgo</h3><p>Posibilidad de un efecto adverso, considerando su probabilidad y su impacto.</p><p class="example">Que se alteren o pierdan archivos importantes del grupo.</p></div>
+ </div>
+ <p style="margin-top:25px">Un ataque es una acción concreta contra el sistema. Puede ser <strong>pasivo</strong>, como observar información, o <strong>activo</strong>, como modificarla o interrumpir un servicio. Los errores humanos y los fallos físicos también pueden causar pérdida de datos sin un atacante.</p>
+</section>
+<section id="amenazas">
+ <h2>Amenazas habituales y su efecto</h2>
+ <div class="table-wrap"><table><thead><tr><th scope="col">Amenaza o ataque</th><th scope="col">Cómo afecta</th><th scope="col">Medidas relacionadas</th></tr></thead><tbody>
+  <tr><th scope="row">Suplantación y phishing</th><td>Engaña al usuario para obtener credenciales o acciones a favor de un impostor.</td><td>Verificar el origen, capacitación y autenticación resistente al phishing cuando esté disponible.</td></tr>
+  <tr><th scope="row">Troyano</th><td>Un programa aparentemente útil incluye funciones maliciosas.</td><td>Controlar el origen del software y limitar sus privilegios.</td></tr>
+  <tr><th scope="row">Virus y gusanos</th><td>El virus se asocia con un huésped; el gusano puede propagarse entre sistemas explotando vías disponibles.</td><td>Actualizaciones, segmentación y controles de ejecución y detección.</td></tr>
+  <tr><th scope="row">Explotación de errores</th><td>Fallos de memoria, validación o lógica permiten operaciones no previstas.</td><td>Corregir vulnerabilidades, revisar código y emplear comprobaciones y aislamiento.</td></tr>
+  <tr><th scope="row">Escalada de privilegios</th><td>Un proceso obtiene derechos superiores a los autorizados.</td><td>Mínimo privilegio, separación de funciones y protección de la base confiable.</td></tr>
+  <tr><th scope="row">Denegación de servicio</th><td>Agota o bloquea recursos y afecta su disponibilidad.</td><td>Límites de uso, filtrado, capacidad y medidas de recuperación.</td></tr>
+ </tbody></table></div>
+ <div class="example-box"><span class="case-label">Caso del aula</span><p>Una cuenta robada intenta modificar el archivo de notas. La autenticación multifactor puede dificultar el acceso inicial; los permisos limitan lo que esa cuenta puede hacer; los registros ayudan a detectar la acción y los respaldos apoyan la recuperación.</p></div>
+</section>
+<section id="capas">
+ <h2>Prevenir, detectar y recuperar</h2>
+ <ul>
+  <li><strong>Prevenir:</strong> mantener actualizaciones, permisos mínimos y controles sobre la entrada y la ejecución de programas.</li>
+  <li><strong>Autenticar con más garantías:</strong> combinar factores distintos cuando corresponde. Dos contraseñas siguen siendo el mismo tipo de factor.</li>
+  <li><strong>Detectar:</strong> registrar y revisar accesos, errores repetidos y cambios inesperados.</li>
+  <li><strong>Contener:</strong> limitar la propagación con aislamiento y restricciones de acceso.</li>
+  <li><strong>Recuperar:</strong> mantener respaldos protegidos y comprobar que puedan restaurarse.</li>
+ </ul>
+ <div class="note update"><strong>Autenticación actual:</strong> NIST distingue los niveles de garantía y reconoce mecanismos resistentes al phishing. Los códigos introducidos manualmente, como los OTP, pueden ser retransmitidos por un impostor; la resistencia al phishing requiere mecanismos criptográficos adecuados. <a href="../fuentes.html#nist-auth">NIST SP 800-63B-4</a>.</div>
+</section><div class="takeaway"><h2>Para quedarnos con lo esencial</h2><p>La identidad, los datos y los permisos se comprueban por separado. Las defensas deben cubrir prevención, detección y recuperación frente a amenazas y errores.</p></div><details><summary>Para discutir: ¿Aceptar una calificación de 95 demuestra que el usuario puede registrarla?</summary><div class="detail-body"><p>Demuestra que el valor cumple la regla del ejemplo. Todavía debe comprobarse la autorización del usuario sobre ese registro.</p></div></details><div class="sources-inline" id="fuentes-tema"><p><strong>Base teórica:</strong> Tanenbaum (2009), cap. 9, pp. 613–616, 641–705. <a href="../fuentes.html#tanenbaum">Referencia del libro</a>.</p><p><strong>Complementos:</strong> <a href="../fuentes.html#owasp-validation">OWASP: validación de entradas</a> y <a href="../fuentes.html#nist-auth">NIST: autenticación</a>.</p></div></article><aside class="lesson-nav" aria-label="Contenido de este tema"><p>En este tema</p><a href="#validacion">Qué se valida</a><a href="#prueba">Prueba una regla</a><a href="#riesgo">Amenaza, vulnerabilidad y riesgo</a><a href="#amenazas">Ataques y defensas</a><a href="#capas">Defensa en profundidad</a><a href="#fuentes-tema">Fuentes del tema</a></aside></div><nav class="lesson-pagination" aria-label="Continuar la unidad">
+<a class="page-link" href="6-5-lenguaje.html"><span>Tema anterior · 6.5</span><strong>Protección y lenguaje</strong></a>
+<a class="page-link next" href="6-7-cifrado.html"><span>Siguiente tema · 6.7</span><strong>Cifrado</strong></a></nav></main>
+<footer class="site-footer"><div class="shell footer-inner">
+<p>Sistemas Operativos · Unidad 6<br>Jesús Yamil Castro Cano · Gabriel Angel Avalos Silva</p>
+<a href="../fuentes.html">Bibliografía y glosario</a>
+</div></footer>
+</body>
+</html>

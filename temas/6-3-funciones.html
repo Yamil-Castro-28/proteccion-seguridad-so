@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#111114">
+ <meta name="description" content="6.3 · Funciones del sistema de protección. Material de la Unidad 6 de Sistemas Operativos: definiciones, explicaciones y ejemplos para clase.">
+ <title>6.3 · Funciones del sistema de protección · Sistemas Operativos</title>
+ <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="../assets/styles.css">
+ <script src="../assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="site-top">
+ <div class="shell header-row">
+  <a class="brand" href="../index.html" aria-label="Sistemas Operativos, inicio">
+   <span class="brand-mark" aria-hidden="true">SO</span>
+   <span><strong>Sistemas Operativos</strong><small>Protección y seguridad</small></span>
+  </a>
+  <nav class="header-links" aria-label="Navegación principal">
+   <a href="../index.html">Inicio</a>
+   <a href="../fuentes.html">Fuentes</a>
+   <button type="button" class="projection-toggle" data-projection aria-pressed="false" title="Aumentar el tamaño del texto para exponer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v5m-4 0h8"/></svg>
+    <span>Proyección</span>
+   </button>
+  </nav>
+ </div>
+ <nav class="topic-bar" aria-label="Temas de la unidad">
+  <div class="shell topic-bar-inner">
+   <button type="button" class="carousel-control" data-carousel-back aria-label="Mostrar temas anteriores">Atrás</button>
+   <div class="topic-carousel" tabindex="0" aria-label="Carrusel de temas, desplazamiento horizontal"><a class="topic-tab" href="../temas/6-1-conceptos.html"><span>6.1</span>Conceptos y objetivos</a><a class="topic-tab" href="../temas/6-2-clasificacion.html"><span>6.2</span>Clasificación</a><a class="topic-tab" href="../temas/6-3-funciones.html" aria-current="page"><span>6.3</span>Sistema de protección</a><a class="topic-tab" href="../temas/6-4-matrices.html"><span>6.4</span>Matrices de acceso</a><a class="topic-tab" href="../temas/6-5-lenguaje.html"><span>6.5</span>Protección y lenguaje</a><a class="topic-tab" href="../temas/6-6-amenazas.html"><span>6.6</span>Validación y amenazas</a><a class="topic-tab" href="../temas/6-7-cifrado.html"><span>6.7</span>Cifrado</a></div>
+   <button type="button" class="carousel-control" data-carousel-next aria-label="Mostrar más temas">Más temas</button>
+  </div>
+ </nav>
+ <div class="progress-line" aria-hidden="true"><div data-reading-progress></div></div>
+</header>
+<main id="contenido" class="shell"><div class="page-hero"><p class="eyebrow">Unidad 6 · Tema 6.3</p><h1>Funciones del sistema de protección</h1><p class="intro">Una política sirve cuando el sistema puede aplicarla. El sistema operativo convierte las reglas de acceso en decisiones y mecanismos.</p><div class="page-meta"><span>Tema 3 de 7</span><a href="#fuentes-tema">Fuentes de este tema</a></div></div>
+<div class="lesson-layout"><article class="lesson" aria-label="Funciones del sistema de protección">
+<section id="funcion">
+ <div class="definition"><span class="case-label">Idea central</span><p>El sistema de protección <strong>controla las operaciones que los procesos pueden realizar sobre los recursos</strong>. Su trabajo es aplicar la política de acceso y mantener las fronteras de aislamiento.</p></div>
+ <h2 style="margin-top:32px">Funciones principales</h2>
+ <ul>
+  <li><strong>Aislar:</strong> separar procesos, espacios de memoria y componentes privilegiados para limitar interferencias.</li>
+  <li><strong>Mediar:</strong> ofrecer rutas controladas, como llamadas al sistema, para solicitar acceso a archivos y dispositivos.</li>
+  <li><strong>Autorizar:</strong> comprobar si la identidad y el contexto del proceso satisfacen los permisos requeridos.</li>
+  <li><strong>Administrar derechos:</strong> permitir conceder, modificar y revocar autorizaciones de manera controlada.</li>
+  <li><strong>Registrar:</strong> conservar eventos relevantes para auditoría, detección e investigación.</li>
+ </ul>
+ <p>Estas funciones se apoyan en hardware y software. Por ejemplo, la CPU distingue niveles de privilegio, mientras el sistema operativo configura la memoria y mantiene las estructuras de permisos.</p>
+</section>
+<section id="dominios">
+ <h2>Tres piezas de una solicitud</h2>
+ <div class="cards">
+  <div class="concept-card"><h3>Sujeto</h3><p>Entidad activa que solicita una operación: un usuario o un proceso que actúa bajo una identidad.</p><p class="example">El proceso del editor que usa el estudiante.</p></div>
+  <div class="concept-card"><h3>Objeto</h3><p>Recurso sobre el que se actúa: archivo, dispositivo, región de memoria o servicio.</p><p class="example">El archivo Calificaciones.csv.</p></div>
+  <div class="concept-card"><h3>Derecho</h3><p>Operación autorizada sobre el objeto, como leer, escribir o ejecutar.</p><p class="example">Lectura permitida; escritura restringida.</p></div>
+ </div>
+ <p style="margin-top:25px">Un <strong>dominio de protección</strong> es el conjunto de objetos y derechos al que puede acceder un proceso en un momento dado. Un dominio puede estar asociado con un usuario, un procedimiento o una función del sistema.</p>
+ <p>Los cambios de dominio o privilegio necesitan reglas. Por ejemplo, una solicitud puede pasar de código de usuario a código del kernel para una operación específica, sin conceder al programa control general del kernel.</p>
+</section>
+<section id="decision">
+ <h2>De la solicitud a la decisión</h2>
+ <div class="flow four" role="group" aria-label="Secuencia de comprobación de acceso">
+  <div><span class="step-label">SOLICITUD</span><strong>Proceso</strong><p>Solicita escribir un archivo bajo una identidad.</p></div>
+  <div><span class="step-label">CONTEXTO</span><strong>Identidad y objeto</strong><p>Se determina quién solicita, qué recurso y qué operación.</p></div>
+  <div><span class="step-label">CONTROL</span><strong>Política y permisos</strong><p>Se comprueba la autorización aplicable.</p></div>
+  <div><span class="step-label">RESULTADO</span><strong>Permitir o denegar</strong><p>La operación se realiza o se rechaza; se registra si corresponde.</p></div>
+ </div>
+ <div class="example-box"><span class="case-label">Caso del aula</span><p>El editor de un estudiante intenta guardar cambios en Calificaciones.csv. La sesión está autenticada, pero el dominio del proceso carece de escritura sobre ese objeto. El sistema rechaza la petición.</p></div>
+</section>
+<section id="confianza">
+ <h2>¿Quién protege al propio mecanismo?</h2>
+ <p>El <strong>monitor de referencia</strong> es el concepto de un componente que media las solicitudes de acceso. Debe cubrir los accesos relevantes, resistir modificaciones no autorizadas y ser lo bastante pequeño y claro para poder analizarlo.</p>
+ <p>La <strong>base de cómputo confiable</strong>, o TCB (Trusted Computing Base), reúne el hardware y software del que depende la aplicación de la política. Un fallo en esta base puede comprometer las garantías del sistema.</p>
+ <div class="note"><strong>Auditoría útil:</strong> un evento puede registrar identidad, recurso, acción, momento y resultado. Los registros también necesitan protección frente a lectura y modificación indebidas.</div>
+ <details><summary>Ampliación: conceder y revocar derechos</summary><div class="detail-body"><p>La protección cambia con el tiempo. Al inscribir a una persona se le conceden permisos; cuando cambia de función, se ajustan; al retirar su acceso, se revocan. La implementación debe considerar permisos heredados, sesiones activas y accesos ya abiertos según las reglas del sistema.</p></div></details>
+</section><div class="takeaway"><h2>Para quedarnos con lo esencial</h2><p>El sistema de protección identifica el contexto, comprueba derechos, aísla recursos y aplica una decisión. Sus propios componentes forman parte de la base que debe protegerse.</p></div><details><summary>Para discutir: ¿Por qué un programa normal no debería modificar las tablas de permisos?</summary><div class="detail-body"><p>Porque podría concederse derechos a sí mismo. Las estructuras y operaciones de administración deben estar protegidas y sujetas a autorización.</p></div></details><div class="sources-inline" id="fuentes-tema"><p><strong>Base teórica:</strong> Tanenbaum (2009), cap. 9, pp. 622–634. <a href="../fuentes.html#tanenbaum">Referencia del libro</a>.</p></div></article><aside class="lesson-nav" aria-label="Contenido de este tema"><p>En este tema</p><a href="#funcion">Qué hace el sistema</a><a href="#dominios">Sujetos, objetos y dominios</a><a href="#decision">La decisión de acceso</a><a href="#confianza">La base de confianza</a><a href="#fuentes-tema">Fuentes del tema</a></aside></div><nav class="lesson-pagination" aria-label="Continuar la unidad">
+<a class="page-link" href="6-2-clasificacion.html"><span>Tema anterior · 6.2</span><strong>Clasificación</strong></a>
+<a class="page-link next" href="6-4-matrices.html"><span>Siguiente tema · 6.4</span><strong>Matrices de acceso</strong></a></nav></main>
+<footer class="site-footer"><div class="shell footer-inner">
+<p>Sistemas Operativos · Unidad 6<br>Jesús Yamil Castro Cano · Gabriel Angel Avalos Silva</p>
+<a href="../fuentes.html">Bibliografía y glosario</a>
+</div></footer>
+</body>
+</html>

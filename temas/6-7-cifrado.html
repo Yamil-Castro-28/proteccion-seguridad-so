@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#111114">
+ <meta name="description" content="6.7 · Cifrado. Material de la Unidad 6 de Sistemas Operativos: definiciones, explicaciones y ejemplos para clase.">
+ <title>6.7 · Cifrado · Sistemas Operativos</title>
+ <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="../assets/styles.css">
+ <script src="../assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="site-top">
+ <div class="shell header-row">
+  <a class="brand" href="../index.html" aria-label="Sistemas Operativos, inicio">
+   <span class="brand-mark" aria-hidden="true">SO</span>
+   <span><strong>Sistemas Operativos</strong><small>Protección y seguridad</small></span>
+  </a>
+  <nav class="header-links" aria-label="Navegación principal">
+   <a href="../index.html">Inicio</a>
+   <a href="../fuentes.html">Fuentes</a>
+   <button type="button" class="projection-toggle" data-projection aria-pressed="false" title="Aumentar el tamaño del texto para exponer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v5m-4 0h8"/></svg>
+    <span>Proyección</span>
+   </button>
+  </nav>
+ </div>
+ <nav class="topic-bar" aria-label="Temas de la unidad">
+  <div class="shell topic-bar-inner">
+   <button type="button" class="carousel-control" data-carousel-back aria-label="Mostrar temas anteriores">Atrás</button>
+   <div class="topic-carousel" tabindex="0" aria-label="Carrusel de temas, desplazamiento horizontal"><a class="topic-tab" href="../temas/6-1-conceptos.html"><span>6.1</span>Conceptos y objetivos</a><a class="topic-tab" href="../temas/6-2-clasificacion.html"><span>6.2</span>Clasificación</a><a class="topic-tab" href="../temas/6-3-funciones.html"><span>6.3</span>Sistema de protección</a><a class="topic-tab" href="../temas/6-4-matrices.html"><span>6.4</span>Matrices de acceso</a><a class="topic-tab" href="../temas/6-5-lenguaje.html"><span>6.5</span>Protección y lenguaje</a><a class="topic-tab" href="../temas/6-6-amenazas.html"><span>6.6</span>Validación y amenazas</a><a class="topic-tab" href="../temas/6-7-cifrado.html" aria-current="page"><span>6.7</span>Cifrado</a></div>
+   <button type="button" class="carousel-control" data-carousel-next aria-label="Mostrar más temas">Más temas</button>
+  </div>
+ </nav>
+ <div class="progress-line" aria-hidden="true"><div data-reading-progress></div></div>
+</header>
+<main id="contenido" class="shell"><div class="page-hero"><p class="eyebrow">Unidad 6 · Tema 6.7</p><h1>Cifrado</h1><p class="intro">Los permisos controlan el acceso a los recursos. El cifrado transforma el contenido para que su lectura dependa de una clave.</p><div class="page-meta"><span>Tema 7 de 7</span><a href="#fuentes-tema">Fuentes de este tema</a></div></div>
+<div class="lesson-layout"><article class="lesson" aria-label="Cifrado">
+<section id="definicion">
+ <div class="definition"><span class="case-label">Idea central</span><p>El <strong>cifrado</strong> transforma un mensaje legible, llamado texto en claro, en un texto cifrado mediante un algoritmo y una clave. El descifrado recupera el contenido usando la clave correspondiente.</p></div>
+ <div class="flow" role="group" aria-label="Secuencia de cifrado y descifrado">
+  <div><span class="step-label">ENTRADA</span><strong>Texto en claro</strong><p>Información comprensible que se desea proteger.</p></div>
+  <div><span class="step-label">TRANSFORMACIÓN</span><strong>Algoritmo y clave</strong><p>El algoritmo aplica una operación criptográfica parametrizada por la clave.</p></div>
+  <div><span class="step-label">RESULTADO</span><strong>Texto cifrado</strong><p>Se necesita la clave correspondiente para recuperar el mensaje mediante descifrado.</p></div>
+ </div>
+ <p>El algoritmo puede ser público. La protección debe depender de las claves y de una implementación adecuada, idea asociada con el <strong>principio de Kerckhoffs</strong>. Ocultar el nombre del algoritmo no sustituye una construcción criptográfica sólida.</p>
+</section>
+<section id="tipos">
+ <h2>Dos formas de trabajar con claves</h2>
+ <div class="cards two">
+  <div class="concept-card"><h3>Cifrado simétrico</h3><p>Utiliza una clave secreta compartida para cifrar y descifrar. Es adecuado para proteger grandes cantidades de datos.</p><p class="example"><strong>Ejemplo:</strong> AES. La distribución y la custodia de la clave forman parte del problema.</p></div>
+  <div class="concept-card"><h3>Criptografía asimétrica</h3><p>Utiliza un par de claves relacionadas: pública y privada. Según el esquema, permite cifrado, firmas o establecimiento de claves.</p><p class="example"><strong>Ejemplo de cifrado:</strong> un remitente usa la clave pública del destinatario y este descifra con su clave privada.</p></div>
+ </div>
+ <p style="margin-top:25px">En sistemas híbridos se combinan técnicas: un mecanismo asimétrico ayuda a establecer o proteger una clave de sesión, y el cifrado simétrico protege los datos. También se necesita autenticar a la otra parte para evitar comunicar la clave a un impostor.</p>
+</section>
+<section id="diferencias">
+ <h2>Tres herramientas con propósitos distintos</h2>
+ <div class="table-wrap"><table><thead><tr><th scope="col">Herramienta</th><th scope="col">Qué aporta</th><th scope="col">Qué debe recordarse</th></tr></thead><tbody>
+  <tr><th scope="row">Cifrado</th><td>Confidencialidad del contenido.</td><td>Permite recuperar el mensaje con la clave apropiada. La integridad requiere un mecanismo adicional o cifrado autenticado.</td></tr>
+  <tr><th scope="row">Hash criptográfico</th><td>Una huella de longitud fija útil para comprobar integridad dentro de un esquema adecuado.</td><td>Se calcula sin una clave secreta y no se descifra. Un atacante puede cambiar el archivo y recalcular un hash sin protección.</td></tr>
+  <tr><th scope="row">Firma digital</th><td>Verificación de integridad y origen mediante una clave pública vinculada al firmante.</td><td>Se firma con una clave privada y se verifica con la pública. El contenido firmado puede seguir siendo legible.</td></tr>
+ </tbody></table></div>
+ <p>Una firma digital se verifica mediante el esquema de firma correspondiente. Describir toda firma como “cifrar con la clave privada” simplifica en exceso el funcionamiento de los distintos algoritmos.</p>
+</section>
+<section id="laboratorio">
+ <h2>Del texto en claro al texto cifrado</h2>
+ <div class="lab" data-crypto-lab>
+  <span class="case-label">Demostración real en el navegador</span><h3>AES-GCM: cifrado con autenticación</h3>
+  <p class="lab-intro">Cifra el mensaje, recupéralo y después altera el bloque para comprobar que se rechaza su descifrado.</p>
+  <noscript><p class="noscript">Activa JavaScript para usar la demostración de cifrado.</p></noscript>
+  <label for="crypto-message">Mensaje de ejemplo</label>
+  <textarea id="crypto-message" maxlength="250" rows="2">Calificación final: 95</textarea>
+  <div class="button-row" style="margin-top:18px"><button type="button" class="button small" id="crypto-encrypt">Cifrar mensaje</button><button type="button" class="button secondary small" id="crypto-decrypt" disabled>Descifrar</button><button type="button" class="button secondary small" id="crypto-tamper" disabled>Alterar un bit</button></div>
+  <p class="output-label" id="cipher-label">TEXTO CIFRADO · REPRESENTACIÓN BASE64</p>
+  <div class="crypto-output" id="crypto-cipher" role="region" aria-labelledby="cipher-label">El texto cifrado aparecerá aquí.</div>
+  <p class="output-label" id="plain-label">MENSAJE RECUPERADO</p>
+  <div class="crypto-output" id="crypto-plain" role="region" aria-labelledby="plain-label">Cifra un mensaje para comenzar.</div>
+  <div class="result" id="crypto-status" role="status" aria-live="polite" aria-atomic="true"><strong>Observa la transformación</strong><span>El mismo mensaje puede producir bloques distintos al cifrarlo de nuevo con un IV nuevo.</span></div>
+  <p class="lab-note">Se genera una clave AES de 256 bits en la memoria del navegador y un IV aleatorio de 12 bytes por cifrado. La clave no se exporta; al recargar se pierde. La demostración no guarda ni envía el mensaje. Base64 representa los bytes como texto y no es el algoritmo de cifrado.</p>
+ </div>
+ <p><strong>¿Por qué falla al alterar un bit?</strong> GCM produce una etiqueta de autenticación. Al descifrar se comprueba esa etiqueta; si el bloque ha cambiado, la verificación falla y el mensaje se rechaza. La clave debe mantenerse secreta y el IV no debe repetirse con esa misma clave.</p>
+</section>
+<section id="actualidad">
+ <span class="eyebrow">Aplicación y vigencia</span><h2>Proteger las claves también es proteger los datos</h2>
+ <p>AES usa bloques de 128 bits y admite claves de 128, 192 o 256 bits. El modo de operación y su uso correcto importan tanto como elegir el algoritmo. El cifrado de discos o comunicaciones necesita además una gestión adecuada de claves y permisos.</p>
+ <div class="note update"><strong>Actualización del libro:</strong> la página 620 menciona MD5 y SHA-1 como funciones populares. Para nuevas aplicaciones que requieren resistencia a colisiones, deben elegirse opciones apropiadas actuales; NIST recomienda migrar de SHA-1 a SHA-2 o SHA-3. SHA-256 pertenece a SHA-2. <a href="../fuentes.html#nist-hash">Política de NIST sobre funciones hash</a>.</div>
+ <p>El cifrado protege el contenido en situaciones definidas, como datos almacenados o en tránsito. Un proceso autorizado que ya puede descifrar los datos sigue necesitando protección frente al abuso, la suplantación y el malware.</p>
+</section><div class="takeaway"><h2>Para quedarnos con lo esencial</h2><p>Cifrar protege la confidencialidad; los hashes y las firmas cumplen otros propósitos. La seguridad requiere claves bien gestionadas, algoritmos adecuados y controles de acceso.</p></div><details><summary>Para discutir: ¿Por qué el cifrado no sustituye un respaldo?</summary><div class="detail-body"><p>Porque el cifrado conserva la confidencialidad, pero un archivo cifrado todavía puede borrarse, dañarse o quedar inaccesible si se pierde la clave. La recuperación requiere medidas adicionales.</p></div></details><div class="sources-inline" id="fuentes-tema"><p><strong>Base teórica:</strong> Tanenbaum (2009), cap. 9, pp. 616–621. <a href="../fuentes.html#tanenbaum">Referencia del libro</a>.</p><p><strong>Complementos:</strong> <a href="../fuentes.html#nist-aes">NIST: AES</a>, <a href="../fuentes.html#nist-hash">NIST: funciones hash</a>, <a href="../fuentes.html#nist-signature">NIST: firmas digitales</a> y <a href="../fuentes.html#webcrypto">W3C: Web Cryptography</a>.</p></div></article><aside class="lesson-nav" aria-label="Contenido de este tema"><p>En este tema</p><a href="#definicion">Mensaje, algoritmo y clave</a><a href="#tipos">Simétrico y asimétrico</a><a href="#diferencias">Cifrado, hash y firma</a><a href="#laboratorio">Prueba el cifrado</a><a href="#actualidad">Uso y límites</a><a href="#fuentes-tema">Fuentes del tema</a></aside></div><nav class="lesson-pagination" aria-label="Continuar la unidad">
+<a class="page-link" href="6-6-amenazas.html"><span>Tema anterior · 6.6</span><strong>Validación y amenazas</strong></a>
+<a class="page-link next" href="../fuentes.html"><span>Bibliografía y glosario</span><strong>Consultar las fuentes</strong></a></nav></main>
+<footer class="site-footer"><div class="shell footer-inner">
+<p>Sistemas Operativos · Unidad 6<br>Jesús Yamil Castro Cano · Gabriel Angel Avalos Silva</p>
+<a href="../fuentes.html">Bibliografía y glosario</a>
+</div></footer>
+</body>
+</html>
