@@ -6,17 +6,6 @@ Integrantes:
 - Jesús Yamil Castro Cano · No. de Control: 25410158
 - Gabriel Angel Avalos Silva · No. de Control: 26410012
 
-## Publicar en GitHub Pages
-
-1. Extraer este ZIP.
-2. Crear un repositorio y cargar todo su contenido, conservando las carpetas.
-   index.html debe estar en la raíz del repositorio.
-3. En Settings > Pages, elegir Deploy from a branch, main y / (root).
-4. Guardar y esperar a que GitHub muestre la dirección del sitio.
-
-Los enlaces son relativos y funcionan en subdirectorios de GitHub Pages.
-No se requiere instalar paquetes ni compilar.
-
 ## Editar
 
 Textos: index.html, fuentes.html y las páginas de temas/.
